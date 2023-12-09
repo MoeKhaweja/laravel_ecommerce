@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Cart;
 
 class AuthController extends Controller
 {
@@ -55,11 +56,17 @@ class AuthController extends Controller
 
         ]);
 
+        $cart = Cart::create([
+            'user_id' => $user->id,
+         
+        ]);
+    
         $token = Auth::login($user);
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
             'user' => $user,
+            'cart'=> $cart,
             'authorisation' => [
                 'token' => $token,
                 'type' => 'bearer',

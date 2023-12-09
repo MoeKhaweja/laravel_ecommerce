@@ -18,6 +18,7 @@ use App\Http\Controllers\OrderController;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\CartController;
 
 Route::get('/getproducts', [ProductController::class, 'index']);
 Route::post('/products', [ProductController::class, 'store']);
@@ -25,7 +26,7 @@ Route::get('/getproducts/{id}', [ProductController::class, 'show']);
 Route::post('/update-product', [ProductController::class, 'update']);
 Route::post('/delete-product', [ProductController::class, 'destroy']);
 
-Route::get('/users/{userId}/order-history', [OrderController::class, 'orderHistory']);
+Route::get('/users/order-history', [OrderController::class, 'orderHistory']);
 
 
 
@@ -37,10 +38,9 @@ Route::controller(AuthController::class)->group(function () {
 
 });
 
-Route::controller(TodoController::class)->group(function () {
-    Route::get('todos', 'index');
-    Route::post('todo', 'store');
-    Route::get('todo/{id}', 'show');
-    Route::put('todo/{id}', 'update');
-    Route::delete('todo/{id}', 'destroy');
-}); 
+
+Route::prefix('cart')->group(function () {
+    Route::post('add', [CartController::class, 'addToCart']);
+    Route::post('remove', [CartController::class, 'removeFromCart']);
+    Route::get('view', [CartController::class, 'viewCart']);
+});
