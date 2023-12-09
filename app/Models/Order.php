@@ -9,6 +9,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'order_id';
+    protected $fillable = ["user_id ", "order_date", "order_price", "order_quantity"];
     public function user() {
         return $this->belongsTo(User::class);
     }
